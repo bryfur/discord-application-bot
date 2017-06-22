@@ -36,7 +36,7 @@ export class Poll {
         // this is probably really shit way to do this
         this.role.members.forEach(member => {
             this.responses.insertOne({
-                "userid": member.id,
+                "memberid": member.id,
                 "pollid": name,
                 "displayname": member.displayName,
                 "answer": "noanswer",
@@ -51,7 +51,24 @@ export class Poll {
         }));
     }
 
-    Respond(user: GuildMember, message: Message) {
+    Respond(member: GuildMember, message: Message, tokens: string[]) {
+
+        if (!member.roles.exists("id", this.role.id)) {
+            return;
+        }
+
+        this.responses.update({ "memberid": member.id, "pollid": name },
+            {
+                "memberid": member.id,
+                "pollid": name,
+                "displayname": member.displayName,
+                "answer": tokens[1],
+                "message": tokens[2]
+            },
+            { upsert: true }
+        );
+
+        (<Message>this.reportMessage).edit(this.GetMessage());
     }
 
     GetMessage(): string {
@@ -69,7 +86,7 @@ export class Poll {
 
         let cursor = this.responses.find({ "pollid": name });
         while (cursor.hasNext) {
-            let document = cursor.next();
+            const document = cursor.next();
             switch (document.answer) {
                 case "yes":
                     yes += document.displayName + " " + document.message;
