@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node RaidBot"
+    "start": "node KEKBot"
   },
   "dependencies": {
     "bufferutil": "^3.0.1",
