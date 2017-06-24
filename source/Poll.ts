@@ -12,10 +12,9 @@ export class Poll {
     private _responses: Collection;
 
     private _header: string;
-    private _reportMessage: Message | Message[];
+    private _reportMessage: Message;
 
-    constructor(name: string, question: string, answers: string[], role: Role, outputChannel: TextChannel, db: Db) {
-
+    constructor(name: string, question: string, answers: string[], role: Role, outputChannel: TextChannel, db: Db, recovery = false) {
         this._name = name;
         this._question = question;
         this._answers = answers;
@@ -27,34 +26,41 @@ export class Poll {
         this._header = "__***" + this._name + new Date().toLocaleDateString +
                                  "***__\n **" + this._question + "**\n";
 
-        this._polls.insertOne(
-            { "_id": name,
-              "question": question,
-              "answers": answers,
-              "role": role.id
-            });
+        if (!recovery) {
+            this._polls.insertOne(
+                {
+                    "_id": name,
+                    "question": question,
+                    "answers": answers,
+                    "role": role.id,
+                    "outputChannelid": outputChannel.id,
+                    "messageid": ""
+                });
 
-        // this is probably really shit way to do this
-        this._role.members.forEach(member => {
-            this._responses.insertOne({
-                "memberid": member.id,
-                "pollid": name,
-                "displayname": member.displayName,
-                "answer": "noanswer",
-                "message": ""
+            this._role.members.forEach(member => {
+                this._responses.insertOne({
+                    "memberid": member.id,
+                    "pollid": name,
+                    "displayname": member.displayName,
+                    "answer": "noanswer",
+                    "message": ""
+                });
             });
-        });
+        }
     }
 
     start() {
-
         this._outputChannel.send(this.GetMessage()).then((message => {
-            this._reportMessage = message;
+            this._reportMessage = <Message>message;
+            this._responses.update({ "_id": this._name },
+                {
+                    "messageid": this._reportMessage.id
+                }
+            );
         }));
     }
 
     Respond(member: GuildMember, message: Message, tokens: string[]) {
-
         if (!member.roles.exists("id", this._role.id)) {
             return;
         }
@@ -74,7 +80,6 @@ export class Poll {
     }
 
     private GetMessage(): string {
-
         let message = this._header;
         const numAnswers = this._answers.length;
 
