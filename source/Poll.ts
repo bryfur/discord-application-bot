@@ -2,40 +2,41 @@ import { Collection, MongoClient, Db } from "mongodb";
 import { TextChannel, Message, Role, GuildMember } from "discord.js";
 
 export class Poll {
-    name: string;
-    question: string;
-    role: Role;
-    includelate: boolean;
-    outputChannel: TextChannel;
+    private _name: string;
+    private _question: string;
+    private _role: Role;
+    private _answers: string[];
+    private _outputChannel: TextChannel;
 
-    polls: Collection;
-    responses: Collection;
+    private _polls: Collection;
+    private _responses: Collection;
 
-    header: string;
-    reportMessage: Message | Message[];
+    private _header: string;
+    private _reportMessage: Message | Message[];
 
-    constructor(name: string, question: string, includelate: boolean, role: Role, outputChannel: TextChannel, db: Db) {
-        this.name = name;
-        this.question = question;
-        this.includelate = includelate;
-        this.role = role;
-        this.outputChannel = outputChannel;
-        this.polls = db.collection("polls");
-        this.responses = db.collection("responses");
+    constructor(name: string, question: string, answers: string[], role: Role, outputChannel: TextChannel, db: Db) {
 
-        this.header = "__***" + this.name + new Date().toLocaleDateString +
-                                 "***__\n **" + this.question + "**\n";
+        this._name = name;
+        this._question = question;
+        this._answers = answers;
+        this._role = role;
+        this._outputChannel = outputChannel;
+        this._polls = db.collection("polls");
+        this._responses = db.collection("responses");
 
-        this.polls.insertOne(
+        this._header = "__***" + this._name + new Date().toLocaleDateString +
+                                 "***__\n **" + this._question + "**\n";
+
+        this._polls.insertOne(
             { "_id": name,
               "question": question,
-              "includelate": includelate,
+              "answers": answers,
               "role": role.id
             });
 
         // this is probably really shit way to do this
-        this.role.members.forEach(member => {
-            this.responses.insertOne({
+        this._role.members.forEach(member => {
+            this._responses.insertOne({
                 "memberid": member.id,
                 "pollid": name,
                 "displayname": member.displayName,
@@ -46,18 +47,19 @@ export class Poll {
     }
 
     start() {
-        this.outputChannel.send(this.GetMessage()).then((message => {
-            this.reportMessage = message;
+
+        this._outputChannel.send(this.GetMessage()).then((message => {
+            this._reportMessage = message;
         }));
     }
 
     Respond(member: GuildMember, message: Message, tokens: string[]) {
 
-        if (!member.roles.exists("id", this.role.id)) {
+        if (!member.roles.exists("id", this._role.id)) {
             return;
         }
 
-        this.responses.update({ "memberid": member.id, "pollid": name },
+        this._responses.update({ "memberid": member.id, "pollid": name },
             {
                 "memberid": member.id,
                 "pollid": name,
@@ -68,60 +70,42 @@ export class Poll {
             { upsert: true }
         );
 
-        (<Message>this.reportMessage).edit(this.GetMessage());
+        (<Message>this._reportMessage).edit(this.GetMessage());
     }
 
-    GetMessage(): string {
+    private GetMessage(): string {
 
-        let message = this.header;
+        let message = this._header;
+        const numAnswers = this._answers.length;
 
-        let yesCount = 0;
-        let noCount = 0;
-        let lateCount = 0;
-        let noAnswerCount = 0;
-        let yes = "";
-        let late = "";
-        let no = "";
+        const responses: Array<string> = new Array<string>(numAnswers);
+        const counts: Array<number> = new Array<number>(numAnswers);
+
         let noAnswer = "";
+        let noAnswerCount = 0;
 
-        let cursor = this.responses.find({ "pollid": name });
+        // tslint:disable-next-line:no-var-keyword
+        var cursor = this._responses.find({ "pollid": name });
         while (cursor.hasNext) {
             const document = cursor.next();
-            switch (document.answer) {
-                case "yes":
-                    yes += document.displayName + " " + document.message;
-                    yes += "\n";
-                    yesCount++;
-                    break;
-                case "late":
-                    late += document.displayName + " " + document.message;
-                    late += "\n";
-                    lateCount++;
-                    break;
-                case "no":
-                    no += document.displayName + " " + document.message;
-                    no += "\n";
-                    noCount++;
-                    break;
-                case "noanswer":
+            for (let i = 0; i < numAnswers; i++) {
+                if (document.answer === this._answers[i].toLowerCase()) {
+                    counts[i]++;
+                    responses[i] += document.displayName + " " + document.message;
+                    responses[i] += "\n";
+                } else {
                     noAnswer += document.displayName;
                     noAnswer += "\n";
                     noAnswerCount++;
-                    break;
+                }
             }
         }
 
-        message += "__**Yes**__ - " + yesCount;
-        message += "\n";
-        message += yes;
-
-        message += "__**Late**__ - " + lateCount;
-        message += "\n";
-        message += late;
-
-        message += "__**No**__ - " + noCount;
-        message += "\n";
-        message += no;
+        for (let i = 0; i < numAnswers; i++) {
+            message += "__**" + this._answers[i] + "**__ - " + counts[i];
+            message += "\n";
+            message += responses[i];
+        }
 
         message += "__**No Answer**__ - " + noAnswerCount;
         message += "\n";

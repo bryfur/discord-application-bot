@@ -21,8 +21,10 @@ export function echo(message: Message, tokens: string[]) {
 }
 
 export function schedule(message: Message, tokens: string[], db: Db) {
-    const members = message.guild.roles.find("name", "test").members.array();
-    const polls = db.collection("polls");
+    const role = message.guild.roles.find("name", tokens[3]);
+    const outputChannel = <TextChannel>message.guild.channels.find("name", tokens[4]);
+
+    const poll = new Poll(tokens[1], tokens[2], ["yes", "no", "late"], role, outputChannel, db);
 }
 
 export function info(message: Message, tokens: string[], db: Db) {
