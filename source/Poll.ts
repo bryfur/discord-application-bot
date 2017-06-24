@@ -38,7 +38,7 @@ export class Poll {
     private _answers: string[];
     private _outputChannel: TextChannel;
 
-    private _polls: Collection;5
+    private _polls: Collection;
     private _responses: Collection;
 
     private _header: string;
@@ -54,7 +54,7 @@ export class Poll {
         this._responses = db.collection("responses");
 
         this._header = "__***" + this._name + " " + new Date().toLocaleDateString() +
-                                 "***__\n **" + this._question + "**\n";
+            "***__\n **" + this._question + "**\n";
     }
 
     async start() {
@@ -63,10 +63,16 @@ export class Poll {
         this._reportMessage = <Message>message;
 
         await this._responses.update({ "_id": this._name },
-                {
-                    "messageid": this._reportMessage.id
-                }
-            );
+            {
+                "messageid": this._reportMessage.id
+            }
+        );
+
+        await Promise.all(this._role.members.map(
+            member => {
+                member.send(this._question);
+            })
+        );
     }
 
     async Respond(member: GuildMember, message: Message, tokens: string[]): Promise<boolean> {
@@ -83,7 +89,7 @@ export class Poll {
                 "message": tokens[2]
             },
             { upsert: true }
-        ).catch(this.LogError);
+        );
 
         await (<Message>this._reportMessage).edit(await this.GetMessage()).catch(this.LogError);
 

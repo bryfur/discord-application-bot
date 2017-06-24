@@ -4,7 +4,7 @@
         "comment-format": [true,
             "check-space"
         ],
-        "curly":[true, "ignore-same-line"],
+        "curly":[false, "ignore-same-line"],
         "indent": [true,
             "spaces"
         ],
@@ -44,6 +44,7 @@
                 "variable-declaration": "onespace"
             }
         ],
+        "d",
         "whitespace": [true,
             "check-branch",
             "check-decl",
