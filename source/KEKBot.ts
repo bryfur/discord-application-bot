@@ -8,7 +8,7 @@ import * as assert from "assert";
 import { KEKError } from "./KEKError";
 import * as AdminFunctions from "./AdminFunctions";
 
-const tokenizer = new S();
+const tokenizer = new WordTokenizer();
 const client = new Client();
 
 const dburl = "mongodb://localhost:27017/KEKBot";
