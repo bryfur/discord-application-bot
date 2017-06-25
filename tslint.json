@@ -44,7 +44,6 @@
                 "variable-declaration": "onespace"
             }
         ],
-        "d",
         "whitespace": [true,
             "check-branch",
             "check-decl",

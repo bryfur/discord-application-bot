@@ -91,13 +91,9 @@ export class Poll {
             { upsert: true }
         );
 
-        await (<Message>this._reportMessage).edit(await this.GetMessage()).catch(this.LogError);
+        await (<Message>this._reportMessage).edit(await this.GetMessage());
 
         return true;
-    }
-
-    private LogError(reason) {
-        console.log(reason);
     }
 
     private async GetMessage(): Promise<string> {
@@ -105,14 +101,16 @@ export class Poll {
         const numAnswers = this._answers.length;
 
         const responses: Array<string> = new Array<string>(numAnswers);
+        responses.forEach(resp => resp = "");
         const counts: Array<number> = new Array<number>(numAnswers);
+        counts.forEach(i => i = 0);
 
         let noAnswer = "";
         let noAnswerCount = 0;
 
         // tslint:disable-next-line:no-var-keyword
         var cursor = this._responses.find({ "pollid": this._name });
-        const documents = await cursor.toArray().catch(this.LogError);
+        const documents = await cursor.toArray();
 
         if (documents) {
             documents.forEach(document => {
