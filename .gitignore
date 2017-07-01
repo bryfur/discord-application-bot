@@ -1,5 +1,5 @@
 node_modules/
-api/
+/api/
 /source/config.ts
 /*.js
 /*.map
