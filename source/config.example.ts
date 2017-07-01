@@ -6,6 +6,7 @@ export const dburl = "mongodb://localhost:27017/KEKBot";
 export const token = "";
 export const guildId = "293221521600675840";
 export const adminChannelId = "293528648760295424";
+export const applicationChannelId = "293528648760295424";
 
 // Discord OAuth Config
 export const CLIENT_ID = "";
