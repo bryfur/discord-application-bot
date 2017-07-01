@@ -9,7 +9,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Optimize mobile viewport -->
-
     <title>KEK Guild</title>
 
     <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
@@ -30,7 +29,7 @@
     <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <!-- SCROLLS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- load bootstrap -->
     <style>
         html {
@@ -41,54 +40,58 @@
             padding-top: 70px;
         }
 
-        #todo-list {
-            margin-bottom: 30px;
+        .horizontal-collapse {
+            height: 70px;
+        }
+
+        .navbar-collapse.in {
+            overflow-y: hidden;
         }
     </style>
 
     <!-- SPELLS -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- load jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- load angular -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
-
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-sanitize.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-touch.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
     <script src="scripts/script.js"></script>
+
 </head>
-<!-- SET THE CONTROLLER AND GET ALL TODOS -->
 
 <body ng-app="kekguild" ng-controller="MainController">
-    <nav class="navbar navbar-inverse navbar-fixed-top" item-height="100" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-
-            <ul class="nav navbar-nav">
-                <li>
+    <div ng-controller="CollapseController">
+        <nav class="navbar navbar-inverse navbar-default navbar-fixed-top" item-height="100" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+				    <span class="sr-only">Toggle navigation</span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+			    </button>
                     <a class="navbar-brand" ui-sref="home">KEK</a>
-                </li>
-                <li>
-                    <a ui-sref="application">Application</a>
-                </li>
-                <li>
-                    <a ui-sref="footage" ng-show="false">Footage</a>
-                </li>
-                <li>
-                    <a ui-sref="contact" ng-show="false">Contact</a>
-                </li>
-            </ul>
-            <div class="nav navbar-nav navbar-right" >
-                <a href="/api/discordauth/login" ng-if="!currentUser" class="btn btn-primary navbar-btn" role="button">Login With Discord</a>
-                <a href="/api/discordauth/logout" ng-if="currentUser" class="btn btn-primary navbar-btn" role="button">Logout</a>
-                <p class="navbar-text" ng-if="currentUser">{{currentUser.username}}&nbsp&nbsp&nbsp&nbsp</p>
+                </div>
+                <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+                    <ul class="nav navbar-nav">
+                        <li><a ui-sref="application">Application</a></li>
+                        <li><a ui-sref="footage" ng-show="false">Footage</a></li>
+                        <li><a ui-sref="contact" ng-show="false">Contact</a></li>
+                    </ul>
+                    <div class="nav navbar-nav navbar-right">
+                        <a href="/api/discordauth/login" ng-if="!currentUser" class="btn btn-primary navbar-btn" role="button">Login With Discord</a>
+                        <a href="/api/discordauth/logout" ng-if="currentUser" class="btn btn-primary navbar-btn" role="button">Logout</a>
+                        <p class="navbar-text" ng-if="currentUser">&nbsp&nbsp{{currentUser.username}}&nbsp&nbsp</p>
+                    </div>
+                </div>
             </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+        </nav>
+    </div>
 
-    <!-- MAIN CONTENT AND INJECTED VIEWS -->
     <ui-view></ui-view>
 
 </body>

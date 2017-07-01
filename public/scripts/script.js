@@ -2,7 +2,7 @@
 
 // create the module and name it scotchApp
 // also include ngRoute for all our routing needs
-var kekguild = angular.module('kekguild', ['ui.router']);
+var kekguild = angular.module('kekguild', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
 kekguild.constant('AUTH_EVENTS', {
     loginSuccess: 'auth-login-success',
@@ -61,6 +61,12 @@ kekguild.controller('MainController', function ($scope, $http, Session) {
         }, function (response) {
         });
 })
+
+kekguild.controller('CollapseController', function ($scope) {
+  $scope.isNavCollapsed = true;
+  $scope.isCollapsed = false;
+  $scope.isCollapsedHorizontal = false;
+});
 
 kekguild.controller('FormController', function ($scope, $http, Session) {
     $scope.formData = {};
