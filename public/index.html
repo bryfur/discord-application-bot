@@ -1,0 +1,101 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+
+<head>
+    <base href="/" />
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Optimize mobile viewport -->
+
+    <title>KEK Guild</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- load bootstrap -->
+    <style>
+        html {
+            overflow-y: scroll;
+        }
+
+        body {
+            padding-top: 70px;
+        }
+
+        #todo-list {
+            margin-bottom: 30px;
+        }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- load jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <!-- load angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+
+    <script src="scripts/script.js"></script>
+</head>
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+
+<body ng-app="kekguild" ng-controller="MainController">
+    <nav class="navbar navbar-inverse navbar-fixed-top" item-height="100" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="navbar-brand" ui-sref="home">KEK</a>
+                </li>
+                <li>
+                    <a ui-sref="application">Application</a>
+                </li>
+                <li>
+                    <a ui-sref="footage" ng-show="false">Footage</a>
+                </li>
+                <li>
+                    <a ui-sref="contact" ng-show="false">Contact</a>
+                </li>
+            </ul>
+            <div class="nav navbar-nav navbar-right" >
+                <a href="/api/discordauth/login" ng-if="!currentUser" class="btn btn-primary navbar-btn" role="button">Login With Discord</a>
+                <a href="/api/discordauth/logout" ng-if="currentUser" class="btn btn-primary navbar-btn" role="button">Logout</a>
+                <p class="navbar-text" ng-if="currentUser">{{currentUser.username}}&nbsp&nbsp&nbsp&nbsp</p>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <ui-view></ui-view>
+
+</body>
+
+<footer>
+    <br></br>
+    <br></br>
+</footer>
+
+</html>

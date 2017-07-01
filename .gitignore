@@ -1,0 +1,6 @@
+node_modules/
+api/
+/source/config.ts
+/*.js
+/*.map
+.DS_store

@@ -30,10 +30,8 @@ export async function poll(message: Message, tokens: string[], db: Db) {
     const outputChannel = <TextChannel>message.guild.channels.find("name", tokens[4]);
     if (!outputChannel)
         throw new KEKError("Channel {" + tokens[4] + "} not found");
-    
-    let answers: string[] = tokens.slice(5);
 
-    const poll = await PollFactory(tokens[1], tokens[2], answers, role, outputChannel, db);
+    const poll = await PollFactory(tokens[1], tokens[2], tokens.slice(5), role, outputChannel, db);
     await poll.start();
 }
 

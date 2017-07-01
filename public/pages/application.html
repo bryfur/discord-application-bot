@@ -1,0 +1,41 @@
+    <head>
+    <script src="scripts/application.js"></script>
+    </head>
+    
+    <div class="container">
+        <div class="jumbotron text-center">
+            <img src="images/Dank_KEK_Logo.png" width="250"></img>
+            <h1>KEK Application</h1>
+        </div>
+
+        <div id="recruitment-form" class="row" ng-controller="FormController">
+            <div class="col-sm-8 col-sm-offset-2">
+                <form>
+                    <div class="form-group">
+                        <h4>What is your GW2 ingame name (Example.1234)?</h4>
+                        <input type="text" class="form-control input-lg text-left" ng-model="formData.gw2name">
+                        <h4>We raid Sun/Mon/Weds 9:30 EST, are you available all these times?</h4>
+                        <input type="text" class="form-control input-lg text-left" ng-model="formData.attendance">
+                        <h4>Will you actively use your mic to contribute to the guild during raids and other times?</h4>
+                        <input type="text" class="form-control input-lg text-left" ng-model="formData.mic">
+                        <h4>What is/are your main classes?</h4>
+                        <input type="text" class="form-control input-lg text-left" ng-model="formData.class">
+                        <h4>What is your prior experience in wvw guilds?</h4>
+                        <textarea class="form-control input-lg text-left" rows="4" cols="50" ng-model="formData.experience"></textarea>
+                        <h4>Show us the build you are currently running in WvW. Fill out this editor (<a href="http://en.gw2skills.net/editor/">http://en.gw2skills.net/editor/</a>)
+                            and link the gear / traits you are currently using below.</h4>
+                        <textarea class="form-control input-lg text-left" rows="4" cols="50" ng-model="formData.build"></textarea>
+                        <h4>Do you have footage/can you record?</h4>
+                        <textarea class="form-control input-lg text-left" rows="4" cols="50" ng-model="formData.record"></textarea>
+                        <h4>What's your capacity right now?</h4>
+                        <input type="text" class="form-control input-lg text-left" ng-model="formData.capacity">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg" ng-click="save()">Save</button>
+                        <button type="submit" class="btn btn-primary btn-lg" ng-click="submit()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>

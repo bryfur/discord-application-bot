@@ -2,30 +2,27 @@
 import { TextChannel, Message, Client } from "discord.js";
 import { WordTokenizer } from "natural";
 import { MongoClient, Db } from "mongodb";
-
 import * as assert from "assert";
 
+import * as config from "./config";
 import { KEKError } from "./KEKError";
 import * as AdminFunctions from "./AdminFunctions";
+import * as KEKWeb from "./KEKWeb";
 
 const tokenizer = new WordTokenizer();
 const client = new Client();
-
-const dburl = "mongodb://localhost:27017/KEKBot";
-const token = "MzIzMTMwNDE3OTgyOTk2NDgx.DDBFGw.n2S_IOmNjnAIxr3wH_338mvHlIQ";
-const guildId = "293221521600675840";
-const adminChannelId = "293528648760295424";
 
 let db: Db = undefined;
 
 client.on("ready", () => {
     console.log("I am ready!");
+    KEKWeb.Start(client, db);
 });
 
 client.on("message", async message => {
     try {
         if (!message.author.bot) {
-            if (message.channel.id === adminChannelId) {
+            if (message.channel.id === config.adminChannelId) {
                 const tokens = tokenizer.tokenize(message.content);
                 switch (tokens[0].toLowerCase()) {
                     case "echo":
@@ -60,11 +57,11 @@ client.on("message", async message => {
     }
 });
 
-MongoClient.connect(dburl, function (err, dbc) {
+MongoClient.connect(config.dburl, function (err, dbc) {
     assert.equal(undefined, err);
     console.log("Connected successfully to server");
     db = dbc;
 });
 
 // Log our bot in
-client.login(token);
+client.login(config.token);
