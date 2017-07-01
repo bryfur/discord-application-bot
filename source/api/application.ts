@@ -19,6 +19,7 @@ export function application (db: Db, client: Client): Router {
 
     // create todo and send back all todos after creation
     router.post("/submit", catchAsync(async (req, res) => {
+        req.body._id = undefined;
         const doc = await apps.findOne({ "id": req.body.id });
         if (doc) {
             const message = channel.messages.find("id", doc.messageid);
@@ -42,6 +43,7 @@ export function application (db: Db, client: Client): Router {
 
     // create todo and send back all todos after creation
     router.post("/save", catchAsync(async (req, res) => {
+        req.body._id = undefined;
         apps.updateOne({ "id": req.body.id },
             req.body,
             { upsert: true }
