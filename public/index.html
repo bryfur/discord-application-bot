@@ -1,8 +1,6 @@
 <!-- index.html -->
 <!doctype html>
 
-<!-- ASSIGN OUR ANGULAR MODULE -->
-
 <head>
     <base href="/" />
     <!-- META -->
@@ -35,17 +33,17 @@
         html {
             overflow-y: scroll;
         }
-
         body {
             padding-top: 70px;
         }
-
         .horizontal-collapse {
             height: 70px;
         }
-
         .navbar-collapse.in {
             overflow-y: hidden;
+        }
+        .navbar-brand {
+            margin-top: -8px;
         }
     </style>
 
@@ -75,7 +73,9 @@
 				    <span class="icon-bar"></span>
 				    <span class="icon-bar"></span>
 			    </button>
-                    <a class="navbar-brand" ui-sref="home">KEK</a>
+                    <a class="navbar-brand" ui-sref="home">
+                        <img alt="Brand" src="/images/KEK_Small_Logo.png">
+                    </a>
                 </div>
                 <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
                     <ul class="nav navbar-nav">
