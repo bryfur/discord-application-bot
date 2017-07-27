@@ -59,7 +59,7 @@ client.on("message", async message => {
 
 MongoClient.connect(config.dburl, function (err, dbc) {
     assert.equal(undefined, err);
-    console.log("Connected successfully to server");
+    console.log("Connected successfully to Database server");
     db = dbc;
 });
 

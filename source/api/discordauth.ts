@@ -7,8 +7,24 @@ import * as cookieSession from "cookie-session";
 import * as config from "../config";
 import { catchAsync } from "../utils";
 
+// Validate the user id with the discord api token
+export async function IsUserAuthorized(token, id): Promise<boolean> {
+    const response = await fetch("https://discordapp.com/api/users/@me",
+        {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + token
+            },
+        });
+    const json = await response.json();
+    if (json.id === id) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
-export function discordauth (): Router {
+export function discordauth(): Router {
     const app = express();
 
     const router = express.Router();
@@ -29,7 +45,7 @@ export function discordauth (): Router {
     });
 
     router.get("/logout", catchAsync(async (req, res) => {
-        req.session = null;
+        req.session = undefined;
         res.redirect(`/`);
     }));
 
