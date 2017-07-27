@@ -23,20 +23,21 @@ kekguild.config(function ($stateProvider, $urlRouterProvider, $locationProvider)
             url: '/'
         })
 
-        // route for the about page
+        // route for the application page
         .state('application', {
             templateUrl: 'pages/application.html',
             url: '/application',
             data: { requireLogin: false },
         })
 
-        // route for the contact page
+        // route for the footage page
         .state('footage', {
             templateUrl: 'pages/footage.html',
             url: '/footage',
             data: { requireLogin: true },
         })
 
+        // route for the login page
         .state('login', {
             templateUrl: 'pages/login.html',
             url: '/login'
