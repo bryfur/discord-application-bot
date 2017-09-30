@@ -3,29 +3,29 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node KEKBot"
+    "start": "node dist/KEKBot"
   },
   "dependencies": {
-    "body-parser": "^1.17.2",
+    "body-parser": "^1.18.2",
     "btoa": "^1.1.2",
-    "bufferutil": "^3.0.1",
+    "bufferutil": "^3.0.2",
     "cookie-session": "^2.0.0-beta.2",
-    "debug": "^2.6.8",
-    "discord.js": "^11.1.0",
+    "debug": "^2.6.9",
+    "discord.js": "^11.2.1",
     "erlpack": "github:hammerandchisel/erlpack",
-    "express": "^4.15.3",
+    "express": "^4.16.1",
     "later": "^1.2.0",
     "mongod": "^2.0.0",
-    "mongodb": "^2.2.29",
+    "mongodb": "^2.2.31",
     "natural": "^0.5.1",
-    "node-fetch": "^1.7.1",
+    "node-fetch": "^1.7.3",
     "uws": "^0.14.5"
   },
   "devDependencies": {
-    "@types/express": "^4.0.36",
-    "@types/mongodb": "^2.2.4",
-    "@types/natural": "^0.2.32",
-    "@types/node": "^7.0.29",
-    "typescript": "^2.3.4"
+    "@types/express": "^4.0.37",
+    "@types/mongodb": "^2.2.11",
+    "@types/natural": "^0.2.33",
+    "@types/node": "^8.0.31",
+    "typescript": "^2.5.3"
   }
 }
