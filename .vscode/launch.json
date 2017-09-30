@@ -8,9 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/KEKBot",
+            "program": "${workspaceRoot}/source/KEKBot.ts",
             "outFiles": [
-                "${workspaceRoot}/out/**/*.js"
+                "${workspaceRoot}/dist/*.js"
             ]
         }
     ]
