@@ -1,6 +1,5 @@
 node_modules/
 /api/
 /source/config.ts
-/*.js
-/*.map
+/dist
 .DS_store
